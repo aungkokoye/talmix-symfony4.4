@@ -20,7 +20,10 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  * @ApiResource(
  *     collectionOperations={"get", "post"},
  *     itemOperations={
- *     "get" = {"path"="/my-project/{id}"},
+ *      "get" = {
+ *          "path"="/my-project/{id}",
+ *          "normalization_context"={"groups"={"project:detail"}}
+ *          },
  *      "put"
  *     },
  *     normalizationContext={
@@ -43,7 +46,7 @@ class Project
 {
     /**
      *
-     * @Groups({"project:read"})
+     * @Groups({"project:read", "project:detail"})
      *
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -52,7 +55,7 @@ class Project
     private $id;
 
     /**
-     * @Groups({"project:read", "project:write"})
+     * @Groups({"project:read", "project:write", "project:detail"})
      *
      * @ORM\Column(type="string", length=255)
      *
@@ -65,7 +68,7 @@ class Project
     /**
      * The value of project in pences.
      *
-     * @Groups({"project:read", "project:write"})
+     * @Groups({"project:write", "project:detail"})
      *
      * @ORM\Column(type="integer")
      *
@@ -75,7 +78,7 @@ class Project
     private $value;
 
     /**
-     *  @Groups({"project:read", "project:write"})
+     *  @Groups({"project:read", "project:write", "project:detail"})
      *
      * @ORM\ManyToOne(targetEntity=ProjectOwner::class, inversedBy="projects")
      * @ORM\JoinColumn(nullable=false)
@@ -83,7 +86,7 @@ class Project
     private $owner;
 
     /**
-     * @Groups({"project:read",  "project:write"})
+     * @Groups({"project:read",  "project:write", "project:detail"})
      * @ORM\Column(type="text", nullable=true)
      *
      * @Assert\Callback("App\Entity\Project", "validateDescription")
@@ -91,7 +94,7 @@ class Project
     private $description;
 
     /**
-     * @Groups({"project:read",  "project:write"})
+     * @Groups({"project:read",  "project:write", "project:detail"})
      * @ORM\Column(type="boolean", options={"default" : 0})
      *
      */
