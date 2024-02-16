@@ -24,7 +24,9 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  *          "path"="/my-project/{id}",
  *          "normalization_context"={"groups"={"project:detail"}}
  *          },
- *      "put"
+ *      "put" = {
+ *          "normalization_context"={"groups"={"project:detail"}}
+ *          }
  *     },
  *     normalizationContext={
  *      "groups"={"project:read"}
@@ -80,8 +82,10 @@ class Project
     /**
      *  @Groups({"project:read", "project:write", "project:detail"})
      *
-     * @ORM\ManyToOne(targetEntity=ProjectOwner::class, inversedBy="projects")
+     * @ORM\ManyToOne(targetEntity=ProjectOwner::class, inversedBy="projects", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
+     *
+     * @Assert\Valid
      */
     private $owner;
 

@@ -8,10 +8,15 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *      collectionOperations={"get", "post"},
+ *      itemOperations={"get", "put", "delete"}
+ * )
  * @ORM\Entity(repositoryClass=ProjectOwnerRepository::class)
+ *
  *
  * normalizationContext={
  *  "groups"={"project_owner:read"}
@@ -40,8 +45,11 @@ class ProjectOwner
      * @Groups({
      *     "project_owner:read",
      *     "project_owner:write",
+     *     "project:write",
      *     "project:detail"
      * })
+     *
+     * @Assert\NotBlank()
      */
     private $name;
 
